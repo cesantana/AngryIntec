@@ -1,11 +1,13 @@
 var res = {
     HelloWorld_png : "res/HelloWorld.png",
-    Rambo : "journey_1.png",
-    Terrorist2: "asesino.png",
-    explosion: "explosion.png",
-    bomba: "bomba.png",
-    madera : "madera.png",
-    fondo : "background.png"
+    terrorist: "res/asesino.png",
+    explosion: "res/explosion.png",
+    bomba: "res/bomba.png",
+    madera: "res/madera.png",
+    madera_2 : "res/madera_2.png",
+    fondo : "res/background.png",
+    cannon : "res/cannon.png",
+    trapecio: "res/trapecio.png"
 };
 
 var g_resources = [];
