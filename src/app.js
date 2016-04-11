@@ -4,7 +4,13 @@ var HelloWorldLayer = cc.Layer.extend({
     body:null,
     shape:null,
     xavier: null,
-    
+    dercha: null,
+    Izq: null,
+    base: null,
+    ancholimit: 5,
+    elasticidadLim: 0.5,
+    friccion: 1,
+    //Mover cañon
     moverConejo: function(location, event){
         cc.log("Mover conejo");
         var size = cc.winSize;
@@ -85,7 +91,7 @@ var HelloWorldLayer = cc.Layer.extend({
         
         
         this.wood = new cc.Sprite(res.madera);
-        this.wood.setPosition((size.width / 2) + 180 ,(size.height * 0.15) + 70);
+        this.wood.setPosition((size.width / 2) + 140 ,(size.height * 0.15) + 70);
         this.addChild(this.wood, 0);
         //palo 2
         this.wood = new cc.Sprite(res.madera);
@@ -93,8 +99,30 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(this.wood, 0);
         //palo 3 acostado
         this.wood2 = new cc.Sprite(res.madera_2);
-        this.wood2.setPosition((size.width / 2) + 230 ,(size.height * 0.15) + 140);
+        this.wood2.setPosition((size.width / 2) + 215 ,(size.height * 0.15) + 155);
         this.addChild(this.wood2, 0);
+        
+        
+        
+        /*limites del juegos-paredes*/
+        
+                    //Izq
+                this.Izq = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(0, cc.winSize.height), this.ancholimit);
+                this.Izq.setElasticity(this.elasticidadLim);
+                this.Izq.setFriction(this.friccion);
+                this.space.addStaticShape(this.Izq);
+                    //derecha
+                this.dercha = new cp.SegmentShape(this.space.staticBody, new cp.v(cc.winSize.width, cc.winSize.height), new cp.v(cc.winSize.width, 0), this.ancholimit);
+                this.dercha.setElasticity(this.elasticidadLim);
+                this.dercha.setFriction(this.friccion);
+                this.space.addStaticShape(this.dercha);
+                    //Base
+                this.base = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(cc.winSize.width, 0), this.ancholimit);
+                this.base.setElasticity(this.elasticidadLim);
+                this.base.setFriction(this.friccion);
+                this.space.addStaticShape(this.base);
+                
+        
 
          cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
