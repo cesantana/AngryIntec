@@ -47,25 +47,23 @@ var HelloWorldLayer = cc.Layer.extend({
       
            this.xavier = new cc.PhysicsSprite(res.terrorist);
         var contentSize = this.xavier.getContentSize();
-                //MALO 1
+         //MALO 1
         this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p((size.width / 2) + 70 ,(size.height * 0.15) + 70);
+        this.body.p = cc.p((size.width / 2) + 250 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height -10);
         
-//      init body
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
         this.space.addShape(this.shape);
         this.xavier.setBody(this.body);
         this.addChild(this.xavier, 2);
-                     //MALO 2
+         //MALO 2
         this.malvado = new cc.PhysicsSprite(res.terrorist);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p((size.width / 2) + 210 ,(size.height * 0.15) + 70);
+        this.body.p = cc.p((size.width / 2) + 390 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height-10);
         
-//      init body
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
         this.space.addShape(this.shape);
         this.malvado.setBody(this.body);
         this.addChild(this.malvado, 2);
@@ -89,9 +87,10 @@ var HelloWorldLayer = cc.Layer.extend({
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p((size.width / 2) + 140 ,(size.height * 0.15) + 70);
+        this.body.p = cc.p((size.width / 2) + 320 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
+        
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
         this.addChild(this.wood, 0);
@@ -99,9 +98,12 @@ var HelloWorldLayer = cc.Layer.extend({
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
+        this.body.p = cc.p((size.width / 2) + 436 ,(size.height * 0.15) + 70);
+        //back up de la linea de arriba
+        //this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
+        
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
         this.addChild(this.wood, 2);
@@ -111,9 +113,10 @@ var HelloWorldLayer = cc.Layer.extend({
         this.wood2 = new cc.PhysicsSprite(res.madera_2);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p((size.width / 2) + 140 ,(size.height / 4) *3);
+        this.body.p = cc.p((size.width / 2) + 370 ,(size.height / 4) * 3);
         this.space.addBody(this.body);
-        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.shape = new cp.BoxShape(this.body, contentSize.width + 24, contentSize.height-115);
+        
         this.space.addShape(this.shape);
         this.wood2.setBody(this.body);
         this.addChild(this.wood2, 0);
