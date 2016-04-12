@@ -7,9 +7,9 @@ var HelloWorldLayer = cc.Layer.extend({
     dercha: null,
     Izq: null,
     base: null,
-    ancholimit: 5,
+    ancholimit: 2,
     elasticidadLim: 0.5,
-    friccion: 1,
+    friccion: 300   ,
     //Mover cañon
     moverConejo: function(location, event){
         cc.log("Mover conejo");
@@ -21,20 +21,7 @@ var HelloWorldLayer = cc.Layer.extend({
         
         juego.cannon.runAction(rotateTo);
         var juegoBox = event.getCurrentTarget();
-     
-//        for(var bomba of juego.bombas){
-//            var cuadro = bomba.getBoundingBox();
-//            if(cc.rectIntersectsRect(cuadro,conejo)){
-//                alert("Conejo choco");      
-//            }
-//        }
-//        for(var zanahoria of juego.zanahorias){
-//            var zanahoriaBounding = zanahoria.getBoundingBox();
-//            if(cc.rectIntersectsRect(zanahoriaBounding,conejo)){
-//                juego.puntos++
-//                juego.winLbl.setString("Puntos " + juego.puntos);
-//            }
-//        }
+
     },
    matar: function(location, event){
         var ubicacion = location.getLocation();
@@ -57,51 +44,79 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(this._debugNode, 10);
         
         this.space.gravity = cp.v(0, -350);
-        
-        this.xavier = new cc.PhysicsSprite(res.terrorist);
+      
+           this.xavier = new cc.PhysicsSprite(res.terrorist);
         var contentSize = this.xavier.getContentSize();
-        
+                //MALO 1
         this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
-        this.body.p = cc.p(size.width / 2, size.height / 2);
+        this.body.p = cc.p((size.width / 2) + 70 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         
 //      init body
         this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
         this.space.addShape(this.shape);
-        
         this.xavier.setBody(this.body);
-
         this.addChild(this.xavier, 2);
+                     //MALO 2
+        this.malvado = new cc.PhysicsSprite(res.terrorist);
+        var contentSize = this.xavier.getContentSize();
+       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body.p = cc.p((size.width / 2) + 210 ,(size.height * 0.15) + 70);
+        this.space.addBody(this.body);
         
+//      init body
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.space.addShape(this.shape);
+        this.malvado.setBody(this.body);
+        this.addChild(this.malvado, 2);
+        
+        //FONDO
         this.sprite = new cc.Sprite(res.fondo);
         this.sprite.setPosition(size.width / 2, size.height / 2);
         this.addChild(this.sprite, 0);
-
+        //base del cañon
         this.trapecio = new cc.Sprite(res.trapecio);
-        this.trapecio.setPosition((size.width * 0.12), (size.height * 0.15));
+        this.trapecio.setPosition((size.width * 0.122) -50, (size.height * 0.15));
         this.addChild(this.trapecio, 0);
-        
+        //cañon
         this.cannon = new cc.Sprite(res.cannon);
-        this.cannon.setPosition((size.width * 0.12), (size.height * 0.15)+ 20);
+        this.cannon.setPosition((size.width * 0.122) -50, (size.height * 0.15)+ 20);
         this.addChild(this.cannon, 0);
+       
         
-        this.malvado = new cc.Sprite(res.terrorist);
-        this.malvado.setPosition((size.width / 2) + 210 ,(size.height * 0.15) + 70);
-        this.addChild(this.malvado, 0);
-        
-        
-        this.wood = new cc.Sprite(res.madera);
-        this.wood.setPosition((size.width / 2) + 140 ,(size.height * 0.15) + 70);
+        //Instanciando maderas verticales
+
+        this.wood = new cc.PhysicsSprite(res.madera);
+        var contentSize = this.xavier.getContentSize();
+       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body.p = cc.p((size.width / 2) + 140 ,(size.height * 0.15) + 70);
+        this.space.addBody(this.body);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.space.addShape(this.shape);
+        this.wood.setBody(this.body);
         this.addChild(this.wood, 0);
         //palo 2
-        this.wood = new cc.Sprite(res.madera);
-        this.wood.setPosition((size.width / 2) + 286 ,(size.height * 0.15) + 70);
-        this.addChild(this.wood, 0);
-        //palo 3 acostado
-        this.wood2 = new cc.Sprite(res.madera_2);
-        this.wood2.setPosition((size.width / 2) + 215 ,(size.height * 0.15) + 155);
-        this.addChild(this.wood2, 0);
+        this.wood = new cc.PhysicsSprite(res.madera);
+        var contentSize = this.xavier.getContentSize();
+       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
+        this.space.addBody(this.body);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.space.addShape(this.shape);
+        this.wood.setBody(this.body);
+        this.addChild(this.wood, 2);
         
+         //Instanciando madera horizontal
+        //palo 3 acostado
+        this.wood2 = new cc.PhysicsSprite(res.madera_2);
+        var contentSize = this.xavier.getContentSize();
+       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body.p = cc.p((size.width / 2) + 140 ,(size.height / 4) *3);
+        this.space.addBody(this.body);
+        this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height);
+        this.space.addShape(this.shape);
+        this.wood2.setBody(this.body);
+        this.addChild(this.wood2, 0);
         
         
         /*limites del juegos-paredes*/
