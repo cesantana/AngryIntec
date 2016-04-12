@@ -9,7 +9,7 @@ var HelloWorldLayer = cc.Layer.extend({
     base: null,
     ancholimit: 2,
     elasticidadLim: 0.5,
-    friccion: 300   ,
+    friccion: 500,
     //Mover cañon
     moverConejo: function(location, event){
         cc.log("Mover conejo");
@@ -52,7 +52,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this.body.p = cc.p((size.width / 2) + 250 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height -10);
-        
+        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
         this.space.addShape(this.shape);
         this.xavier.setBody(this.body);
         this.addChild(this.xavier, 2);
@@ -63,7 +63,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this.body.p = cc.p((size.width / 2) + 390 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 14, contentSize.height-10);
-        
+        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
         this.space.addShape(this.shape);
         this.malvado.setBody(this.body);
         this.addChild(this.malvado, 2);
@@ -90,6 +90,7 @@ var HelloWorldLayer = cc.Layer.extend({
         this.body.p = cc.p((size.width / 2) + 320 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
+        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
         
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
@@ -103,6 +104,7 @@ var HelloWorldLayer = cc.Layer.extend({
         //this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
+        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
         
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
