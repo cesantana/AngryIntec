@@ -7,24 +7,53 @@ var HelloWorldLayer = cc.Layer.extend({
     dercha: null,
     Izq: null,
     base: null,
+    bomba:null,
     ancholimit: 2,
     elasticidadLim: 0.5,
     friccion: 500,
+    
+    
     //Mover cañon
-    moverConejo: function(location, event){
-        cc.log("Mover conejo");
+      random: function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+    
+    moveCannon: function(location, event){
         var size = cc.winSize;
         var  juego = event.getCurrentTarget();
         var ubicacion = location.getLocation();
+        //Posicion del mouse, se divide entre diez por ejemplo y = 133.34 quedaria -13.34 para posicionar al cañon. 
+        var positionY = ( ubicacion.y/10)* -1;
+        console.log(positionY);
         
-        var rotateTo = new cc.RotateTo(0, ubicacion.y);
-        
+        //Se rota al cañon en base a la posicion generada 
+        var rotateTo = new cc.RotateTo(0, positionY);
+        console.log(ubicacion);
         juego.cannon.runAction(rotateTo);
-        var juegoBox = event.getCurrentTarget();
-
+        
     },
-   matar: function(location, event){
+   bomb: function(location, event){
+        var size = cc.winSize;
+        var juego = event.getCurrentTarget();
         var ubicacion = location.getLocation();
+        var positionY = (ubicacion.y/10) + 25;
+        
+        //Creando bomba al hacer clic
+        var bomba = new cc.PhysicsSprite(res.bomba);
+        var bombaContentSize = bomba.getContentSize();
+       
+        //Fisica para la bomba
+        var body = new cp.Body(1, cp.momentForBox(1, bombaContentSize.width, bombaContentSize.height));
+        body.p = cc.p((size.width * 0.122) +5 ,  positionY);
+        juego.space.addBody(body);
+        
+        var shape = new cp.BoxShape(body, bombaContentSize.width, bombaContentSize.height);
+        bomba.setBody(body);
+        juego.addChild(bomba, 10);
+        //Luego que la bomba es creada, se cambia la posicon de una manera random para que ella misma caiga con la gravedad. 
+        var moveto = cc.moveTo(3, cc.p(juego.random(600, 900), juego.random(800, 1700)));
+        bomba.runAction(moveto);
+       
         return true;
     },
     
@@ -74,16 +103,15 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(this.sprite, 0);
         //base del cañon
         this.trapecio = new cc.Sprite(res.trapecio);
-        this.trapecio.setPosition((size.width * 0.122) -50, (size.height * 0.15));
+        this.trapecio.setPosition((size.width * 0.122) -50, 10);
         this.addChild(this.trapecio, 0);
         //cañon
         this.cannon = new cc.Sprite(res.cannon);
-        this.cannon.setPosition((size.width * 0.122) -50, (size.height * 0.15)+ 20);
+        this.cannon.setPosition((size.width * 0.122) -50, 35);
         this.addChild(this.cannon, 0);
        
         
         //Instanciando maderas verticales
-
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
@@ -91,11 +119,10 @@ var HelloWorldLayer = cc.Layer.extend({
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
         this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
-        
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
         this.addChild(this.wood, 0);
-        //palo 2
+     //palo 2
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
@@ -104,11 +131,11 @@ var HelloWorldLayer = cc.Layer.extend({
         //this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
-        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico
-        
+        this.shape.setFriction(10);//Esto hace qe el objeto se quede estatico=
         this.space.addShape(this.shape);
         this.wood.setBody(this.body);
         this.addChild(this.wood, 2);
+       
         
          //Instanciando madera horizontal
         //palo 3 acostado
@@ -146,8 +173,8 @@ var HelloWorldLayer = cc.Layer.extend({
 
          cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            onTouchBegan: this.matar,
-            onTouchMoved: this.moverConejo
+            onTouchBegan: this.bomb,
+            onTouchMoved: this.moveCannon
             
         }, this);
     
