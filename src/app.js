@@ -14,7 +14,7 @@ var HelloWorldLayer = cc.Layer.extend({
     
     
     //Mover cañon
-      random: function getRandomInt(min, max) {
+    random: function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     },
     
@@ -31,7 +31,7 @@ var HelloWorldLayer = cc.Layer.extend({
         var rotateTo = new cc.RotateTo(0, positionY);
         console.log(ubicacion);
         juego.cannon.runAction(rotateTo);
-        
+        return true;
     },
    bomb: function(location, event){
         
@@ -57,9 +57,6 @@ var HelloWorldLayer = cc.Layer.extend({
         //Luego que la bomba es creada, se cambia la posicon de una manera random para que ella misma caiga con la gravedad. 
         var moveto = cc.moveTo(3, cc.p(juego.random(600, 1200), juego.random(800, 1700)));
         bomba.runAction(moveto);
-       
-       
-       
        
         return true;
     },
@@ -156,7 +153,7 @@ var HelloWorldLayer = cc.Layer.extend({
         //Instanciando maderas verticales
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
-       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         this.body.p = cc.p((size.width / 2) + 320 ,(size.height * 0.15) + 70);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width - 100, contentSize.height);
@@ -167,7 +164,7 @@ var HelloWorldLayer = cc.Layer.extend({
      //palo 2
         this.wood = new cc.PhysicsSprite(res.madera);
         var contentSize = this.xavier.getContentSize();
-       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         this.body.p = cc.p((size.width / 2) + 436 ,(size.height * 0.15) + 70);
         //back up de la linea de arriba
         //this.body.p = cc.p((size.width / 2) + 286 ,(size.height * 0.15) + 70);
@@ -183,7 +180,7 @@ var HelloWorldLayer = cc.Layer.extend({
         //palo 3 acostado
         this.wood2 = new cc.PhysicsSprite(res.madera_2);
         var contentSize = this.xavier.getContentSize();
-       this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
+        this.body = new cp.Body(1, cp.momentForBox(1, contentSize.width, contentSize.height));
         this.body.p = cc.p((size.width / 2) + 370 ,(size.height / 4) * 3);
         this.space.addBody(this.body);
         this.shape = new cp.BoxShape(this.body, contentSize.width + 24, contentSize.height-115);
@@ -195,27 +192,28 @@ var HelloWorldLayer = cc.Layer.extend({
         
         /*limites del juegos-paredes*/
         
-                    //Izq
-                this.Izq = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(0, cc.winSize.height), this.ancholimit);
-                this.Izq.setElasticity(this.elasticidadLim);
-                this.Izq.setFriction(this.friccion);
-                this.space.addStaticShape(this.Izq);
-                    //derecha
-                this.dercha = new cp.SegmentShape(this.space.staticBody, new cp.v(cc.winSize.width, cc.winSize.height), new cp.v(cc.winSize.width, 0), this.ancholimit);
-                this.dercha.setElasticity(this.elasticidadLim);
-                this.dercha.setFriction(this.friccion);
-                this.space.addStaticShape(this.dercha);
-                    //Base
-                this.base = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(cc.winSize.width, 0), this.ancholimit);
-                this.base.setElasticity(this.elasticidadLim);
-                this.base.setFriction(this.friccion);
-                this.space.addStaticShape(this.base);
+            //Izq
+        this.Izq = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(0, cc.winSize.height), this.ancholimit);
+        this.Izq.setElasticity(this.elasticidadLim);
+        this.Izq.setFriction(this.friccion);
+        this.space.addStaticShape(this.Izq);
+            //derecha
+        this.dercha = new cp.SegmentShape(this.space.staticBody, new cp.v(cc.winSize.width, cc.winSize.height), new cp.v(cc.winSize.width, 0), this.ancholimit);
+        this.dercha.setElasticity(this.elasticidadLim);
+        this.dercha.setFriction(this.friccion);
+        this.space.addStaticShape(this.dercha);
+            //Base
+        this.base = new cp.SegmentShape(this.space.staticBody, new cp.v(0, 0), new cp.v(cc.winSize.width, 0), this.ancholimit);
+        this.base.setElasticity(this.elasticidadLim);
+        this.base.setFriction(this.friccion);
+        this.space.addStaticShape(this.base);
                 
         
 
          cc.eventManager.addListener({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
-            onTouchBegan: this.bomb,
+            onTouchEnded: this.bomb,
+            onTouchBegan: this.moveCannon,
             onTouchMoved: this.moveCannon
             
         }, this);
